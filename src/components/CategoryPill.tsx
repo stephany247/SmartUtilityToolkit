@@ -1,10 +1,6 @@
-import React from 'react';
-import {
-  TouchableOpacity,
-  Text,
-  StyleSheet,
-} from 'react-native';
-import { colors, radius } from '../theme';
+import React from "react";
+import { TouchableOpacity, Text, StyleSheet } from "react-native";
+import { colors, radius } from "../theme";
 
 interface Props {
   label: string;
@@ -36,9 +32,6 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: colors.border,
     marginRight: 8,
-    // height: 32,
-    alignItems: 'center',
-    justifyContent: 'center'
   },
   pillActive: {
     backgroundColor: colors.accent,
@@ -51,11 +44,11 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 13,
-    fontWeight: '500',
+    fontWeight: "500",
     color: colors.text2,
     letterSpacing: 0.1,
   },
   textActive: {
-    color: '#fff',
+    color: "#fff",
   },
 });
