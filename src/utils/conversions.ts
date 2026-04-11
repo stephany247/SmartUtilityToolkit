@@ -16,6 +16,12 @@ export interface UnitCategory {
   quickRefs: { val: string; label: string }[];
 }
 
+export const DEFAULT_CURRENCY_REFS = [
+  { val: "1 USD = … NGN", label: "USD → NGN" },
+  { val: "1 GBP = … NGN", label: "GBP → NGN" },
+  { val: "1 EUR = … NGN", label: "EUR → NGN" },
+];
+
 export const CATEGORIES: Record<Category, UnitCategory> = {
   length: {
     label: "Length",

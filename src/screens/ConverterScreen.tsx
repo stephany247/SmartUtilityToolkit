@@ -7,6 +7,7 @@ import {
   StyleSheet,
   StatusBar,
   Keyboard,
+  ActivityIndicator,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
@@ -14,6 +15,7 @@ import {
   Category,
   convert,
   convertCurrency,
+  DEFAULT_CURRENCY_REFS,
   formatResult,
 } from "../utils/conversions";
 import { CategoryPill } from "../components/CategoryPill";
@@ -29,6 +31,9 @@ export function ConverterScreen() {
   const [result, setResult] = useState("");
   const [formula, setFormula] = useState("");
   const [loading, setLoading] = useState(false);
+  const [currencyQuickRefs, setCurrencyQuickRefs] = useState<
+    { val: string; label: string }[] | null
+  >(null);
 
   const categoryData = CATEGORIES[activeCategory];
 
@@ -42,23 +47,24 @@ export function ConverterScreen() {
         return;
       }
 
-      // currency case
       if (cat === "currency") {
         setLoading(true);
 
-        const res = await convertCurrency(num, fUnit, tUnit);
+        try {
+          const res = await convertCurrency(num, fUnit, tUnit);
 
-        setLoading(false);
+          if (!res) return;
 
-        if (!res) return;
+          const formatted = formatResult(res);
+          setResult(formatted);
+          setFormula(`${num} ${fUnit} = ${formatted} ${tUnit}`);
+        } finally {
+          setLoading(false);
+        }
 
-        const formatted = formatResult(res);
-        setResult(formatted);
-        setFormula(`${num} ${fUnit} = ${formatted} ${tUnit}`);
         return;
       }
 
-      // normal units
       const res = convert(num, fUnit, tUnit, cat);
       if (res === null) return;
 
@@ -68,6 +74,34 @@ export function ConverterScreen() {
     },
     [],
   );
+
+  const loadCurrencyRefs = async () => {
+    if (currencyQuickRefs) return;
+
+    try {
+      const data = await fetch("https://open.er-api.com/v6/latest/USD").then(
+        (r) => r.json(),
+      );
+
+      const rates = data.rates;
+
+      const refs = [
+        { val: `1 USD = ${rates.NGN.toFixed(2)} NGN`, label: "USD → NGN" },
+        {
+          val: `1 GBP = ${(rates.NGN / rates.GBP).toFixed(2)} NGN`,
+          label: "GBP → NGN",
+        },
+        {
+          val: `1 EUR = ${(rates.NGN / rates.EUR).toFixed(2)} NGN`,
+          label: "EUR → NGN",
+        },
+      ];
+
+      setCurrencyQuickRefs(refs);
+    } catch (e) {
+      console.log("Failed to load currency refs");
+    }
+  };
 
   const handleCategoryChange = (cat: Category) => {
     const units = CATEGORIES[cat].units;
@@ -79,6 +113,9 @@ export function ConverterScreen() {
     setFromValue("");
     setResult("");
     setFormula("");
+    if (cat === "currency" && !currencyQuickRefs) {
+      loadCurrencyRefs();
+    }
     Keyboard.dismiss();
   };
 
@@ -177,7 +214,7 @@ export function ConverterScreen() {
         {/* To field */}
         <ConvertField
           label="To"
-          value={result}
+          value={loading ? "..." : result}
           unit={toUnit}
           units={categoryData.units}
           unitLabels={categoryData.unitLabels}
@@ -189,13 +226,24 @@ export function ConverterScreen() {
         {/* Formula badge */}
         {formula ? (
           <View style={styles.formulaBadge}>
-            <Text style={styles.formulaText}>{formula}</Text>
+            <Text style={styles.formulaText}>
+              {loading ? (
+                <ActivityIndicator color={colors.accent2} size="small" />
+              ) : (
+                formula
+              )}
+            </Text>
           </View>
         ) : null}
 
         {/* Quick refs */}
-        <QuickRefs refs={categoryData.quickRefs} />
-
+        <QuickRefs
+          refs={
+            activeCategory === "currency"
+              ? currencyQuickRefs || DEFAULT_CURRENCY_REFS
+              : categoryData.quickRefs
+          }
+        />
         <View style={{ height: 32 }} />
       </ScrollView>
     </SafeAreaView>
@@ -277,17 +325,17 @@ const styles = StyleSheet.create({
     color: colors.text2,
   },
   formulaBadge: {
-    backgroundColor: "rgba(255,159,10,0.12)", // accent bg
+    backgroundColor: "rgba(255,159,10,0.12)",
     borderWidth: 0.5,
-    borderColor: "rgba(255,159,10,0.25)", // accent border
+    borderColor: "rgba(255,159,10,0.25)",
     borderRadius: radius.sm,
-    paddingVertical: 10,
+    paddingVertical: 14,
     paddingHorizontal: 14,
     alignItems: "center",
   },
   formulaText: {
     fontSize: 13,
-    color: colors.accent, // stays orange
+    color: colors.accent,
     fontVariant: ["tabular-nums"],
     fontWeight: "500",
   },
