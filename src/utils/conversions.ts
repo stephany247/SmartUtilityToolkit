@@ -4,7 +4,8 @@ export type Category =
   | "temperature"
   | "volume"
   | "speed"
-  | "area";
+  | "area"
+  | "currency";
 
 export interface UnitCategory {
   label: string;
@@ -77,6 +78,39 @@ export const CATEGORIES: Record<Category, UnitCategory> = {
       { val: "1 st = 6.35 kg", label: "Stone → Kilograms" },
       { val: "1 t = 1000 kg", label: "Tonnes → Kilograms" },
     ],
+  },
+  currency: {
+    label: "Currency",
+    emoji: "💱",
+    units: [
+      "NGN", // 🇳🇬 local first
+      "USD",
+      "EUR",
+      "GBP",
+      "CAD",
+      "AUD",
+      "CNY",
+      "AED",
+      "SAR",
+      "ZAR",
+      "GHS",
+      "KES",
+    ],
+    unitLabels: {
+      NGN: "Nigerian Naira",
+      USD: "US Dollar",
+      EUR: "Euro",
+      GBP: "British Pound",
+      CAD: "Canadian Dollar",
+      AUD: "Australian Dollar",
+      CNY: "Chinese Yuan",
+      AED: "UAE Dirham",
+      SAR: "Saudi Riyal",
+      ZAR: "South African Rand",
+      GHS: "Ghanaian Cedi",
+      KES: "Kenyan Shilling",
+    },
+    quickRefs: [],
   },
   temperature: {
     label: "Temperature",
@@ -200,6 +234,10 @@ export function convert(
     return convertTemperature(value, fromUnit, toUnit);
   }
 
+  if (category === "currency") {
+    return null;
+  }
+
   const cat = CATEGORIES[category];
   if (!cat.toBase) return null;
 
@@ -231,4 +269,23 @@ export function formatResult(value: number): string {
   }
   // Remove trailing zeros up to 8 decimal places
   return parseFloat(value.toFixed(8)).toString();
+}
+
+export async function convertCurrency(
+  value: number,
+  from: string,
+  to: string,
+): Promise<number | null> {
+  try {
+    const res = await fetch(`https://open.er-api.com/v6/latest/${from}`);
+    const data = await res.json();
+
+    const rate = data?.rates?.[to];
+    if (!rate) return null;
+
+    return value * rate;
+  } catch (e) {
+    console.log("Currency error:", e);
+    return null;
+  }
 }

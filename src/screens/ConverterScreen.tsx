@@ -13,6 +13,7 @@ import {
   CATEGORIES,
   Category,
   convert,
+  convertCurrency,
   formatResult,
 } from "../utils/conversions";
 import { CategoryPill } from "../components/CategoryPill";
@@ -27,19 +28,40 @@ export function ConverterScreen() {
   const [toUnit, setToUnit] = useState("km");
   const [result, setResult] = useState("");
   const [formula, setFormula] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const categoryData = CATEGORIES[activeCategory];
 
   const handleConvert = useCallback(
-    (value: string, fUnit: string, tUnit: string, cat: Category) => {
+    async (value: string, fUnit: string, tUnit: string, cat: Category) => {
       const num = parseFloat(value);
+
       if (!value || isNaN(num)) {
         setResult("");
         setFormula("");
         return;
       }
+
+      // currency case
+      if (cat === "currency") {
+        setLoading(true);
+
+        const res = await convertCurrency(num, fUnit, tUnit);
+
+        setLoading(false);
+
+        if (!res) return;
+
+        const formatted = formatResult(res);
+        setResult(formatted);
+        setFormula(`${num} ${fUnit} = ${formatted} ${tUnit}`);
+        return;
+      }
+
+      // normal units
       const res = convert(num, fUnit, tUnit, cat);
       if (res === null) return;
+
       const formatted = formatResult(res);
       setResult(formatted);
       setFormula(`${num} ${fUnit} = ${formatted} ${tUnit}`);
