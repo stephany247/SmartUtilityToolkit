@@ -147,6 +147,7 @@ export function ConverterScreen() {
           value={fromValue}
           unit={fromUnit}
           units={categoryData.units}
+          unitLabels={categoryData.unitLabels}
           editable
           onChangeValue={handleFromValueChange}
           onChangeUnit={handleFromUnitChange}
@@ -171,6 +172,7 @@ export function ConverterScreen() {
           value={result}
           unit={toUnit}
           units={categoryData.units}
+          unitLabels={categoryData.unitLabels}
           editable={false}
           isResult
           onChangeUnit={handleToUnitChange}

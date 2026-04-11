@@ -14,6 +14,7 @@ interface Props {
   value: string;
   unit: string;
   units: string[];
+   unitLabels?: Record<string, string>;
   editable?: boolean;
   isResult?: boolean;
   onChangeValue?: (v: string) => void;
@@ -24,6 +25,7 @@ export function ConvertField({
   label,
   value,
   unit,
+  unitLabels,
   units,
   editable = true,
   isResult = false,
@@ -64,6 +66,7 @@ export function ConvertField({
       <UnitPicker
         visible={pickerVisible}
         units={units}
+        unitLabels={unitLabels}
         selected={unit}
         onSelect={onChangeUnit}
         onClose={() => setPickerVisible(false)}

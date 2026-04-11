@@ -19,6 +19,7 @@ import { Gesture, GestureDetector } from "react-native-gesture-handler";
 interface Props {
   visible: boolean;
   units: string[];
+  unitLabels?: Record<string, string>;
   selected: string;
   onSelect: (unit: string) => void;
   onClose: () => void;
@@ -28,6 +29,7 @@ interface Props {
 export function UnitPicker({
   visible,
   units,
+  unitLabels,
   selected,
   onSelect,
   onClose,
@@ -97,14 +99,26 @@ export function UnitPicker({
                 }}
                 activeOpacity={0.7}
               >
-                <Text
-                  style={[
-                    styles.itemText,
-                    item === selected && styles.itemTextActive,
-                  ]}
-                >
-                  {item}
-                </Text>
+                <View style={styles.itemTextContainer}>
+                  <Text
+                    style={[
+                      styles.itemText,
+                      item === selected && styles.itemTextActive,
+                    ]}
+                  >
+                    {unitLabels?.[item] ? `${unitLabels[item]}` : item}
+                  </Text>
+                  <Text
+                    style={[
+                      styles.itemText,
+                      item === selected && styles.itemTextActive,
+                      { fontSize: 14, color: colors.text3 },
+                    ]}
+                  >
+                    {item}
+                  </Text>
+                </View>
+
                 {item === selected && <Text style={styles.checkmark}>✓</Text>}
               </TouchableOpacity>
             )}
@@ -152,7 +166,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingVertical: 14,
+    paddingVertical: 8,
     paddingHorizontal: 16,
     borderRadius: radius.sm,
     marginBottom: 4,
@@ -163,13 +177,17 @@ const styles = StyleSheet.create({
   itemActive: {
     // backgroundColor: "rgba(124,111,255,0.12)",
   },
+  itemTextContainer: {
+    flexDirection: "column",
+    gap: 4,
+  },
   itemText: {
     fontSize: 16,
     fontWeight: "400",
     color: colors.text,
   },
   itemTextActive: {
-    color: colors.accent2,
+    color: colors.accent,
     fontWeight: "500",
   },
   checkmark: {
