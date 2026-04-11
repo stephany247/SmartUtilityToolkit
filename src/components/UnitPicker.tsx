@@ -59,6 +59,13 @@ export function UnitPicker({
     if (visible) translateY.value = 0;
   }, [visible]);
 
+  const backdropStyle = useAnimatedStyle(() => {
+    const opacity = 1 - Math.min(translateY.value / 300, 1);
+    return {
+      opacity,
+    };
+  });
+
   return (
     <Modal
       visible={visible}
@@ -66,11 +73,14 @@ export function UnitPicker({
       transparent
       onRequestClose={onClose}
     >
-      <TouchableOpacity
-        style={styles.backdrop}
-        onPress={onClose}
-        activeOpacity={1}
-      />
+      <Animated.View style={[styles.backdrop, backdropStyle]}>
+        <TouchableOpacity
+          style={{ flex: 1 }}
+          onPress={onClose}
+          activeOpacity={1}
+        />
+      </Animated.View>
+
       <GestureDetector gesture={pan}>
         <Animated.View style={[styles.sheet, animatedStyle]}>
           <View style={styles.handle} />
