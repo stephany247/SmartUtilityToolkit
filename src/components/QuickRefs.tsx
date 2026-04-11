@@ -1,6 +1,6 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { colors, radius, spacing } from '../theme';
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { colors, radius, spacing } from "../theme";
 
 interface Ref {
   val: string;
@@ -9,24 +9,18 @@ interface Ref {
 
 interface Props {
   refs: Ref[];
-  onRefPress: (ref: Ref) => void;
 }
 
-export function QuickRefs({ refs, onRefPress }: Props) {
+export function QuickRefs({ refs }: Props) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Quick reference</Text>
       <View style={styles.grid}>
         {refs.map((ref, i) => (
-          <TouchableOpacity
-            key={i}
-            style={styles.item}
-            onPress={() => onRefPress(ref)}
-            activeOpacity={0.7}
-          >
+          <View key={i} style={styles.item}>
             <Text style={styles.val}>{ref.val}</Text>
             <Text style={styles.label}>{ref.label}</Text>
-          </TouchableOpacity>
+          </View>
         ))}
       </View>
     </View>
@@ -43,19 +37,19 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 11,
-    fontWeight: '500',
+    fontWeight: "500",
     color: colors.text3,
-    textTransform: 'uppercase',
+    textTransform: "uppercase",
     letterSpacing: 1,
     marginBottom: spacing.md,
   },
   grid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: "row",
+    flexWrap: "wrap",
     gap: 6,
   },
   item: {
-    width: '48.5%',
+    width: "48.5%",
     backgroundColor: colors.surface2,
     borderRadius: radius.sm,
     paddingVertical: 9,
@@ -63,10 +57,10 @@ const styles = StyleSheet.create({
   },
   val: {
     fontSize: 13,
-    fontWeight: '500',
+    fontWeight: "500",
     color: colors.text,
     marginBottom: 2,
-    fontVariant: ['tabular-nums'],
+    fontVariant: ["tabular-nums"],
   },
   label: {
     fontSize: 11,

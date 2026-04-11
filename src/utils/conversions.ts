@@ -79,7 +79,7 @@ export const CATEGORIES: Record<Category, UnitCategory> = {
     ],
   },
   temperature: {
-    label: "Temp",
+    label: "Temperature",
     emoji: "🌡",
     units: ["°C", "°F", "K"],
     unitLabels: {

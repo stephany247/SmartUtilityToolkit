@@ -87,20 +87,6 @@ export function ConverterScreen() {
     }
   };
 
-  const handleRefPress = (ref: { val: string; label: string }) => {
-    // Parse the "from" part of the ref e.g. "1 ft = 0.305 m"
-    // and populate the from field
-    const match = ref.val.match(/^([\d.]+)\s+(\S+)/);
-    if (!match) return;
-    const val = match[1];
-    const unit = match[2].replace(/°/g, "°");
-    if (categoryData.units.includes(unit)) {
-      setFromValue(val);
-      setFromUnit(unit);
-      handleConvert(val, unit, toUnit, activeCategory);
-    }
-  };
-
   return (
     <SafeAreaView style={styles.safe}>
       <StatusBar barStyle="light-content" backgroundColor={colors.bg} />
@@ -186,7 +172,7 @@ export function ConverterScreen() {
         ) : null}
 
         {/* Quick refs */}
-        <QuickRefs refs={categoryData.quickRefs} onRefPress={handleRefPress} />
+        <QuickRefs refs={categoryData.quickRefs} />
 
         <View style={{ height: 32 }} />
       </ScrollView>
