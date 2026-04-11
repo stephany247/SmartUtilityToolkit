@@ -4,12 +4,11 @@ import { colors, radius } from "../theme";
 
 interface Props {
   label: string;
-  emoji: string;
   active: boolean;
   onPress: () => void;
 }
 
-export function CategoryPill({ label, emoji, active, onPress }: Props) {
+export function CategoryPill({ label, active, onPress }: Props) {
   return (
     <TouchableOpacity
       style={[styles.pill, active && styles.pillActive]}
@@ -17,7 +16,7 @@ export function CategoryPill({ label, emoji, active, onPress }: Props) {
       activeOpacity={0.75}
     >
       <Text style={[styles.text, active && styles.textActive]}>
-        {emoji} {label}
+        {label}
       </Text>
     </TouchableOpacity>
   );

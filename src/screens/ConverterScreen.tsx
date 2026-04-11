@@ -128,7 +128,6 @@ export function ConverterScreen() {
           <CategoryPill
             key={cat}
             label={CATEGORIES[cat].label}
-            emoji={CATEGORIES[cat].emoji}
             active={activeCategory === cat}
             onPress={() => handleCategoryChange(cat)}
           />
