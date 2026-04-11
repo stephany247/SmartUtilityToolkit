@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Modal,
   View,
@@ -9,6 +9,12 @@ import {
 } from "react-native";
 import { colors, radius, spacing } from "../theme";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from "react-native-reanimated";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
 
 interface Props {
   visible: boolean;
@@ -27,6 +33,32 @@ export function UnitPicker({
   onClose,
   title,
 }: Props) {
+  const translateY = useSharedValue(0);
+  const pan = Gesture.Pan()
+    .runOnJS(true) // 👈 whole gesture runs on JS thread
+    .onUpdate((e) => {
+      if (e.translationY > 0) {
+        translateY.value = e.translationY;
+      }
+    })
+    .onEnd((e) => {
+      if (e.translationY > 120 || e.velocityY > 800) {
+        translateY.value = withSpring(0);
+        onClose(); // just call it directly
+      } else {
+        translateY.value = withSpring(0, { damping: 30 });
+      }
+    });
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ translateY: translateY.value }],
+  }));
+
+  // Reset position when modal opens
+  useEffect(() => {
+    if (visible) translateY.value = 0;
+  }, [visible]);
+
   return (
     <Modal
       visible={visible}
@@ -39,35 +71,37 @@ export function UnitPicker({
         onPress={onClose}
         activeOpacity={1}
       />
-      <SafeAreaView style={styles.sheet}>
-        <View style={styles.handle} />
-        <Text style={styles.title}>Select Unit</Text>
-        <FlatList
-          data={units}
-          keyExtractor={(item) => item}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              style={[styles.item, item === selected && styles.itemActive]}
-              onPress={() => {
-                onSelect(item);
-                onClose();
-              }}
-              activeOpacity={0.7}
-            >
-              <Text
-                style={[
-                  styles.itemText,
-                  item === selected && styles.itemTextActive,
-                ]}
+      <GestureDetector gesture={pan}>
+        <Animated.View style={[styles.sheet, animatedStyle]}>
+          <View style={styles.handle} />
+          <Text style={styles.title}>Select Unit</Text>
+          <FlatList
+            data={units}
+            keyExtractor={(item) => item}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                style={[styles.item, item === selected && styles.itemActive]}
+                onPress={() => {
+                  onSelect(item);
+                  onClose();
+                }}
+                activeOpacity={0.7}
               >
-                {item}
-              </Text>
-              {item === selected && <Text style={styles.checkmark}>✓</Text>}
-            </TouchableOpacity>
-          )}
-          contentContainerStyle={{ paddingBottom: 32 }}
-        />
-      </SafeAreaView>
+                <Text
+                  style={[
+                    styles.itemText,
+                    item === selected && styles.itemTextActive,
+                  ]}
+                >
+                  {item}
+                </Text>
+                {item === selected && <Text style={styles.checkmark}>✓</Text>}
+              </TouchableOpacity>
+            )}
+            contentContainerStyle={{ paddingBottom: 32 }}
+          />
+        </Animated.View>
+      </GestureDetector>
     </Modal>
   );
 }
@@ -86,7 +120,7 @@ const styles = StyleSheet.create({
     maxHeight: "60%",
     borderTopWidth: 0.5,
     borderColor: colors.border2,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   handle: {
     width: 36,
