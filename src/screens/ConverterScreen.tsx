@@ -112,7 +112,7 @@ export function ConverterScreen() {
           <Text style={styles.subheading}>Unit converter</Text>
         </View>
         <TouchableOpacity style={styles.settingsBtn}>
-          <Text style={{ fontSize: 18 }}>⚙</Text>
+          <Text style={{ fontSize: 18, color: colors.text }}>⚙</Text>
         </TouchableOpacity>
       </View>
 
@@ -203,7 +203,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: spacing.xxl,
-    paddingTop: spacing.lg,
     paddingBottom: spacing.xl,
   },
   heading: {
@@ -241,6 +240,7 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     paddingHorizontal: spacing.xl,
+    paddingTop: spacing.lg,
     gap: 12,
   },
   swapRow: {
