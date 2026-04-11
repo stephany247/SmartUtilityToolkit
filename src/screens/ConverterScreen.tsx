@@ -267,9 +267,9 @@ const styles = StyleSheet.create({
     color: colors.text2,
   },
   formulaBadge: {
-    backgroundColor: "rgba(52,201,138,0.1)",
+    backgroundColor: "rgba(255,159,10,0.12)", // accent bg
     borderWidth: 0.5,
-    borderColor: "rgba(52,201,138,0.2)",
+    borderColor: "rgba(255,159,10,0.25)", // accent border
     borderRadius: radius.sm,
     paddingVertical: 10,
     paddingHorizontal: 14,
@@ -277,7 +277,7 @@ const styles = StyleSheet.create({
   },
   formulaText: {
     fontSize: 13,
-    color: colors.green,
+    color: colors.accent, // stays orange
     fontVariant: ["tabular-nums"],
     fontWeight: "500",
   },

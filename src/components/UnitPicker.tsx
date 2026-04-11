@@ -157,9 +157,11 @@ const styles = StyleSheet.create({
     borderRadius: radius.sm,
     marginBottom: 4,
     backgroundColor: "transparent",
+    borderBottomColor: colors.border,
+    borderBottomWidth: 1,
   },
   itemActive: {
-    backgroundColor: "rgba(124,111,255,0.12)",
+    // backgroundColor: "rgba(124,111,255,0.12)",
   },
   itemText: {
     fontSize: 16,

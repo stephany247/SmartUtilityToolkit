@@ -47,7 +47,7 @@ export function ConvertField({
             placeholderTextColor={colors.text3}
             editable={editable}
             onFocus={() => setFocused(true)}
-            onBlur={() => setFocused(false)}
+            // onBlur={() => setFocused(false)}
             returnKeyType="done"
           />
           <TouchableOpacity
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     margin: 0,
   },
   inputResult: {
-    color: colors.green,
+    color: colors.accent,
   },
   unitBtn: {
     flexDirection: 'row',

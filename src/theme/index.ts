@@ -1,18 +1,21 @@
 export const colors = {
-  bg: '#0F0F12',
-  surface: '#18181D',
-  surface2: '#22222A',
-  border: 'rgba(255,255,255,0.07)',
-  border2: 'rgba(255,255,255,0.12)',
-  text: '#F0EFF4',
-  text2: '#9897A4',
-  text3: '#5A5965',
-  accent: '#7C6FFF',
-  accent2: '#B8AFFF',
-  accentGlow: 'rgba(124,111,255,0.18)',
-  green: '#34C98A',
-  greenBg: 'rgba(52,201,138,0.1)',
-  greenBorder: 'rgba(52,201,138,0.2)',
+  bg: "#000000", // true black
+  surface: "#1C1C1E", // card background
+  surface2: "#2C2C2E", // buttons / raised
+  border: "rgba(255,255,255,0.08)",
+  border2: "rgba(255,255,255,0.15)",
+
+  text: "#FFFFFF", // primary text
+  text2: "#8E8E93", // secondary (iOS gray)
+  text3: "#636366", // subtle labels
+
+  accent: "#FF9F0A", // 🍊 Apple orange
+  accent2: "#FFD60A", // lighter orange/yellow
+  accentGlow: "rgba(255,159,10,0.25)",
+
+  green: "#30D158", // iOS green
+  greenBg: "rgba(48,209,88,0.12)",
+  greenBorder: "rgba(48,209,88,0.25)",
 };
 
 export const spacing = {
@@ -34,35 +37,35 @@ export const radius = {
 export const typography = {
   heading: {
     fontSize: 26,
-    fontWeight: '600' as const,
+    fontWeight: "600" as const,
     letterSpacing: -0.5,
     color: colors.text,
   },
   subheading: {
     fontSize: 14,
-    fontWeight: '300' as const,
+    fontWeight: "300" as const,
     color: colors.text2,
   },
   label: {
     fontSize: 11,
-    fontWeight: '500' as const,
+    fontWeight: "500" as const,
     color: colors.text3,
     letterSpacing: 1,
-    textTransform: 'uppercase' as const,
+    textTransform: "uppercase" as const,
   },
   input: {
     fontSize: 28,
-    fontWeight: '500' as const,
+    fontWeight: "500" as const,
     color: colors.text,
   },
   body: {
     fontSize: 14,
-    fontWeight: '400' as const,
+    fontWeight: "400" as const,
     color: colors.text,
   },
   caption: {
     fontSize: 12,
-    fontWeight: '400' as const,
+    fontWeight: "400" as const,
     color: colors.text2,
   },
 };
