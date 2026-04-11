@@ -1,20 +1,21 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from "react";
 import {
   View,
   Text,
   TextInput,
   TouchableOpacity,
   StyleSheet,
-} from 'react-native';
-import { colors, radius, spacing, typography } from '../theme';
-import { UnitPicker } from './UnitPicker';
+  Pressable,
+} from "react-native";
+import { colors, radius, spacing, typography } from "../theme";
+import { UnitPicker } from "./UnitPicker";
 
 interface Props {
   label: string;
   value: string;
   unit: string;
   units: string[];
-   unitLabels?: Record<string, string>;
+  unitLabels?: Record<string, string>;
   editable?: boolean;
   isResult?: boolean;
   onChangeValue?: (v: string) => void;
@@ -34,44 +35,48 @@ export function ConvertField({
 }: Props) {
   const [focused, setFocused] = useState(false);
   const [pickerVisible, setPickerVisible] = useState(false);
+  const inputRef = useRef<TextInput>(null);
 
   return (
     <>
-      <View style={[styles.card, focused && styles.cardFocused]}>
-        <Text style={styles.label}>{label}</Text>
-        <View style={styles.row}>
-          <TextInput
-            style={[styles.input, isResult && styles.inputResult]}
-            value={value}
-            onChangeText={onChangeValue}
-            keyboardType="decimal-pad"
-            placeholder="0"
-            placeholderTextColor={colors.text3}
-            editable={editable}
-            onFocus={() => setFocused(true)}
-            // onBlur={() => setFocused(false)}
-            returnKeyType="done"
-          />
-          <TouchableOpacity
-            style={styles.unitBtn}
-            onPress={() => setPickerVisible(true)}
-            activeOpacity={0.75}
-          >
-            <Text style={styles.unitText}>{unit}</Text>
-            <Text style={styles.chevron}>›</Text>
-          </TouchableOpacity>
+      <Pressable onPress={() => inputRef.current?.focus()}>
+        <View style={[styles.card, focused && styles.cardFocused]}>
+          <Text style={styles.label}>{label}</Text>
+          <View style={styles.row}>
+            <TextInput
+              ref={inputRef}
+              style={[styles.input, isResult && styles.inputResult]}
+              value={value}
+              onChangeText={onChangeValue}
+              keyboardType="decimal-pad"
+              placeholder="0"
+              placeholderTextColor={colors.text3}
+              editable={editable}
+              onFocus={() => setFocused(true)}
+              // onBlur={() => setFocused(false)}
+              selectionColor={colors.accent}
+              returnKeyType="done"
+            />
+            <TouchableOpacity
+              style={styles.unitBtn}
+              onPress={() => setPickerVisible(true)}
+              activeOpacity={0.75}
+            >
+              <Text style={styles.unitText}>{unit}</Text>
+              <Text style={styles.chevron}>›</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-
-      <UnitPicker
-        visible={pickerVisible}
-        units={units}
-        unitLabels={unitLabels}
-        selected={unit}
-        onSelect={onChangeUnit}
-        onClose={() => setPickerVisible(false)}
-        title={`Select ${label} unit`}
-      />
+        <UnitPicker
+          visible={pickerVisible}
+          units={units}
+          unitLabels={unitLabels}
+          selected={unit}
+          onSelect={onChangeUnit}
+          onClose={() => setPickerVisible(false)}
+          title={`Select ${label} unit`}
+        />
+      </Pressable>
     </>
   );
 }
@@ -99,14 +104,14 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md - 2,
   },
   row: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 12,
   },
   input: {
     flex: 1,
     fontSize: 28,
-    fontWeight: '500',
+    fontWeight: "500",
     color: colors.text,
     padding: 0,
     margin: 0,
@@ -115,8 +120,8 @@ const styles = StyleSheet.create({
     color: colors.accent,
   },
   unitBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 4,
     backgroundColor: colors.surface2,
     borderWidth: 0.5,
@@ -125,11 +130,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 8,
     minWidth: 72,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   unitText: {
     fontSize: 14,
-    fontWeight: '500',
+    fontWeight: "500",
     color: colors.text,
   },
   chevron: {
