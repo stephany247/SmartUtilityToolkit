@@ -156,9 +156,9 @@ export function ConverterScreen() {
           <Text style={styles.heading}>Smart Toolkit</Text>
           <Text style={styles.subheading}>Unit converter</Text>
         </View>
-        <TouchableOpacity style={styles.settingsBtn}>
+        {/* <TouchableOpacity style={styles.settingsBtn}>
           <Text style={{ fontSize: 18, color: colors.text }}>⚙</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
 
       {/* Category pills */}
