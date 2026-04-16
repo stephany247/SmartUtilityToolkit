@@ -14,7 +14,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Task, loadTasks, saveTasks, generateId } from "../utils/taskStorage";
 import { TaskItem } from "../components/TaskItem";
-import { colors, spacing, radius, typography } from "../theme";
+import { colors, spacing, radius } from "../theme";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Entypo from "@expo/vector-icons/Entypo";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";

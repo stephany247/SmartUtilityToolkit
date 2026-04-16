@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ComponentProps } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -10,13 +10,14 @@ import { colors } from "./src/theme";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 const Tab = createBottomTabNavigator();
+type IoniconName = ComponentProps<typeof Ionicons>["name"];
 
 function TabIcon({
   name,
   label,
   focused,
 }: {
-  name: string;
+  name: IoniconName;
   label: string;
   focused: boolean;
 }) {
