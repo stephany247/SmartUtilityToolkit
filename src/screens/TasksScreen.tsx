@@ -42,6 +42,7 @@ export function TasksScreen() {
     }
   }, [tasks, loading]);
 
+  // task actions
   const addTask = useCallback(() => {
     const trimmed = input.trim();
     if (!trimmed) return;
@@ -147,20 +148,20 @@ export function TasksScreen() {
             />
           )}
           contentContainerStyle={styles.list}
-          ItemSeparatorComponent={() => <View style={{ height: 8 }} />}
+          ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
           ListEmptyComponent={
             !loading ? (
               <View style={styles.empty}>
                 {filter === "completed" ? (
-                  <Entypo name="add-to-list" size={36} color={colors.accent} />
-                ) : (
                   <MaterialIcons
                     name="checklist-rtl"
                     size={36}
                     color={colors.accent}
                   />
+                ) : (
+                  <Entypo name="add-to-list" size={36} color={colors.accent} />
                 )}
                 <Text style={styles.emptyText}>
                   {filter === "completed"
@@ -291,7 +292,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingHorizontal: spacing.xl,
     paddingVertical: spacing.lg,
-    paddingBottom: spacing.xl,
     gap: 10,
     borderTopWidth: 0.5,
     borderTopColor: colors.border,

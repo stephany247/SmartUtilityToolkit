@@ -25,7 +25,7 @@ function TabIcon({
     <View style={tabStyles.iconWrapper}>
       <Ionicons
         name={name}
-        size={24}
+        size={20}
         color={focused ? colors.accent : colors.text3}
       />
       <Text
