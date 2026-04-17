@@ -223,10 +223,6 @@ export const CATEGORIES: Record<Category, UnitCategory> = {
   },
 };
 
-/**
- * Core conversion engine.
- * Returns null if conversion is not possible (e.g. same unit, invalid input).
- */
 export function convert(
   value: number,
   fromUnit: string,
@@ -266,9 +262,6 @@ function convertTemperature(
   return null;
 }
 
-/**
- * Format a result number cleanly for display.
- */
 export function formatResult(value: number): string {
   if (Math.abs(value) < 0.000001 && value !== 0) {
     return value.toExponential(4);

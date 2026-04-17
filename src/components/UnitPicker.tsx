@@ -8,7 +8,6 @@ import {
   StyleSheet,
 } from "react-native";
 import { colors, radius, spacing } from "../theme";
-import { SafeAreaView } from "react-native-safe-area-context";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -37,7 +36,7 @@ export function UnitPicker({
 }: Props) {
   const translateY = useSharedValue(0);
   const pan = Gesture.Pan()
-    .runOnJS(true) // 👈 whole gesture runs on JS thread
+    .runOnJS(true)
     .onUpdate((e) => {
       if (e.translationY > 0) {
         translateY.value = e.translationY;
@@ -46,7 +45,7 @@ export function UnitPicker({
     .onEnd((e) => {
       if (e.translationY > 120 || e.velocityY > 800) {
         translateY.value = withSpring(0);
-        onClose(); // just call it directly
+        onClose();
       } else {
         translateY.value = withSpring(0, { damping: 30 });
       }
