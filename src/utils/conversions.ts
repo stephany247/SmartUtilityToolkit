@@ -89,8 +89,8 @@ export const CATEGORIES: Record<Category, UnitCategory> = {
     label: "Currency",
     emoji: "💱",
     units: [
-      "NGN", // 🇳🇬 local first
       "USD",
+      "NGN",
       "EUR",
       "GBP",
       "CAD",
@@ -230,7 +230,7 @@ export function convert(
   category: Category,
 ): number | null {
   if (fromUnit === toUnit) return value;
-  if (isNaN(value)) return null;
+  if (isNaN(value) || (value < 0)) return null;
 
   if (category === "temperature") {
     return convertTemperature(value, fromUnit, toUnit);
@@ -267,7 +267,7 @@ export function formatResult(value: number): string {
     return value.toExponential(4);
   }
   // Remove trailing zeros up to 8 decimal places
-  return parseFloat(value.toFixed(8)).toString();
+  return parseFloat(value.toFixed(3)).toString();
 }
 
 export async function convertCurrency(

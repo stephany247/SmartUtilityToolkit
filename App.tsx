@@ -105,7 +105,7 @@ const tabStyles = StyleSheet.create({
     paddingTop: 8,
   },
   label: {
-    fontSize: 10,
+    fontSize: 14,
     fontWeight: "500",
     color: colors.text3,
     letterSpacing: 0.2,

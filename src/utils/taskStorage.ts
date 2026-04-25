@@ -9,7 +9,7 @@ export interface Task {
 
 const STORAGE_KEY = "@smart_toolkit_tasks";
 
-// Load all tasks from AsyncStorage.
+// Load all tasks
 export async function loadTasks(): Promise<Task[]> {
   try {
     const raw = await AsyncStorage.getItem(STORAGE_KEY);
@@ -20,7 +20,7 @@ export async function loadTasks(): Promise<Task[]> {
   }
 }
 
-// Persist the full tasks array to AsyncStorage
+// Persist the full tasks array
 export async function saveTasks(tasks: Task[]): Promise<void> {
   try {
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));

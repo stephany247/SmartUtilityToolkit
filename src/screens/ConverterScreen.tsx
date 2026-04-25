@@ -22,6 +22,7 @@ import { CategoryPill } from "../components/CategoryPill";
 import { ConvertField } from "../components/ConvertField";
 import { QuickRefs } from "../components/QuickRefs";
 import { colors, spacing, radius } from "../theme";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 export function ConverterScreen() {
   const [activeCategory, setActiveCategory] = useState<Category>("length");
@@ -206,7 +207,9 @@ export function ConverterScreen() {
             onPress={handleSwap}
             activeOpacity={0.7}
           >
-            <Text style={styles.swapIcon}>⇅</Text>
+            <Text style={styles.swapIcon}>
+              <Ionicons name="swap-vertical" size={20} />
+            </Text>
           </TouchableOpacity>
           <View style={styles.divider} />
         </View>
